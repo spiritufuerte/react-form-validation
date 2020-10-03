@@ -1,0 +1,1 @@
+export const getFormValues = state => state.form.form?.values;
