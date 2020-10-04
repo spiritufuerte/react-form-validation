@@ -5,8 +5,7 @@ import {Input} from "./Input";
 import {useDispatch, useSelector} from "react-redux";
 import {reset} from 'redux-form';
 import {getFormValues} from '../redux/selectors';
-import axios from  'axios';
-import qs from 'qs';
+import axios from 'axios';
 
 const maxLength20 = maxLengthCreator(20);
 const minLength8 = minLength(8);
@@ -36,6 +35,7 @@ const Login = (props) => {
         console.log(values);
     }
 
+
     const handleSignUn = () => {
         axios.post('http://142.93.134.108:1111/sign_up', values)
             .then(function (response) {
@@ -50,11 +50,11 @@ const Login = (props) => {
     }
 
     const handleLogin = () => {
-        axios.post('http://142.93.134.108:1111/login', qs.stringify({ email: 'email',
-        password: 'password'}));
+        axios.post(`http://142.93.134.108:1111/login?email=${values.email}&password=${values.password}`).then(function (response) {
+            console.log(response);
+
+        });
     }
-
-
     return (
         <div>
             <ReduxForm handleSubmit={handleSubmit}/>
