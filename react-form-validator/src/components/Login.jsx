@@ -1,31 +1,10 @@
 import React from "react";
-import {reduxForm, Field} from "redux-form";
-import {aol, email, maxLengthCreator, minLength, required} from "../utils/validators/validators";
-import {Input} from "./Input";
 import {useDispatch, useSelector} from "react-redux";
 import {reset} from 'redux-form';
 import {getFormValues} from '../redux/selectors';
-import axios from 'axios';
-
-const maxLength20 = maxLengthCreator(20);
-const minLength8 = minLength(8);
-const Form = (props) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field placeholder="Email" name="email" component={Input}
-                       warn={aol}
-                       validate={[required, email]}/>
-            </div>
-            <div>
-                <Field placeholder="password" name="password" component={Input}
-                       validate={[required, minLength8, maxLength20]}/>
-            </div>
-        </form>
-    )
-}
-
-const ReduxForm = reduxForm({form: 'form'})(Form);
+import {ReduxForm} from "./Form";
+import {userAPI} from "../api/api";
+import classes from './Login.module.css';
 
 const Login = (props) => {
 
@@ -35,28 +14,17 @@ const Login = (props) => {
         console.log(values);
     }
 
-
     const handleSignUn = () => {
-        axios.post('http://142.93.134.108:1111/sign_up', values)
-            .then(function (response) {
-                console.log(response);
-                dispatch(reset('form'));
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-
+        userAPI.signup(values);
+        dispatch(reset('form'));
     }
 
     const handleLogin = () => {
-        axios.post(`http://142.93.134.108:1111/login?email=${values.email}&password=${values.password}`).then(function (response) {
-            console.log(response);
-
-        });
+        userAPI.login(values);
+        userAPI.getAccessToken();
     }
     return (
-        <div>
+        <div className={classes.wrapper}>
             <ReduxForm handleSubmit={handleSubmit}/>
             <div>
                 <button onClick={handleSignUn}>sign up</button>

@@ -23,4 +23,10 @@ export const updateTokensActionCreator = ({access_token, refresh_token}) => ({
     payload: {access_token, refresh_token}
 });
 
+export const updateTokens = ({access_token, refresh_token}) => {
+    return  (dispatch) => {
+        dispatch(updateTokensActionCreator({access_token, refresh_token}));
+    }
+}
+
 export default userReducer;
