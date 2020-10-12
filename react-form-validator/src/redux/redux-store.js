@@ -1,13 +1,13 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {reducer as reduxFormReducer} from 'redux-form';
-import userReducer from "./user-reducer";
-import thunkMiddleware from 'redux-thunk';
+import authReducer from "./user-reducer";
+import thunk from "redux-thunk";
 
 const reducer = combineReducers({
     form: reduxFormReducer,
-    user: userReducer
+    auth: authReducer
 });
-const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+const store = createStore(reducer, (applyMiddleware(thunk)));
 window.store = store;
 
 export default store;

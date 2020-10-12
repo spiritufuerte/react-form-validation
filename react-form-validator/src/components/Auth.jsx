@@ -3,11 +3,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {reset} from 'redux-form';
 import {getFormValues} from '../redux/selectors';
 import {ReduxForm} from "./Form";
-import {userAPI} from "../api/api";
-import classes from './Login.module.css';
+import {auth} from "../api/api";
+import classes from './Auth.module.css';
 
-const Login = (props) => {
-
+const Auth = () => {
     const dispatch = useDispatch();
     const values = useSelector(getFormValues);
     const handleSubmit = values => {
@@ -15,13 +14,18 @@ const Login = (props) => {
     }
 
     const handleSignUn = () => {
-        userAPI.signup(values);
         dispatch(reset('form'));
+        dispatch(auth(values.email,
+            values.password,
+            false
+        ));
     }
 
     const handleLogin = () => {
-        userAPI.login(values);
-        userAPI.getAccessToken();
+        dispatch(auth(values.email,
+            values.password,
+            true
+        ));
     }
     return (
         <div className={classes.wrapper}>
@@ -34,4 +38,4 @@ const Login = (props) => {
     );
 }
 
-export default Login;
+export default Auth;

@@ -1,11 +1,11 @@
-const UPDATE_TOKENS = 'UPDATE-TOKENS';
+export const UPDATE_TOKENS = 'UPDATE-TOKENS';
 
 const initialState = {
-    access_token: '',
-    refresh_token: ''
+    access_token: null,
+    refresh_token: null
 }
 
-const userReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case UPDATE_TOKENS: {
             let stateCopy = {...state};
@@ -18,15 +18,4 @@ const userReducer = (state = initialState, action) => {
     }
 }
 
-export const updateTokensActionCreator = ({access_token, refresh_token}) => ({
-    type: UPDATE_TOKENS,
-    payload: {access_token, refresh_token}
-});
-
-export const updateTokens = ({access_token, refresh_token}) => {
-    return  (dispatch) => {
-        dispatch(updateTokensActionCreator({access_token, refresh_token}));
-    }
-}
-
-export default userReducer;
+export default authReducer;

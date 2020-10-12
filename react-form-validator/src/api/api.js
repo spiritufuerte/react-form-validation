@@ -1,32 +1,34 @@
 import axios from "axios";
-import {updateTokens} from "../redux/user-reducer";
-import {reset} from "redux-form";
+import {UPDATE_TOKENS} from "../redux/user-reducer";
 
-export const userAPI = {
-    signup(values) {
-        axios.post('http://142.93.134.108:1111/sign_up', values).then(function (response) {
-            console.log(response);
-        })
-            .catch(function (error) {
-                console.log(error);
-            });
-    },
-    login(values) {
-        axios.post(`http://142.93.134.108:1111/login?email=${values.email}&password=${values.password}`).then(function (response) {
-            console.log(response);
-        });
-    },
-    getAccessToken(access_token) {
-        axios.get('http://142.93.134.108:1111/me', {
-            headers: {
-                'Authorization': `Bearer${access_token}`
-            }
-        })
-            .then((res) => {
-                console.log(res.data);
-            })
-            .catch((error) => {
-                console.error(error)
-            })
+
+export function auth(email, password, isLogin) {
+    return async dispatch => {
+        const authData = {
+            email, password,
+            returnSecureToken: true
+        }
+
+        let url = 'http://142.93.134.108:1111/sign_up';
+        if (isLogin) {
+            url = `http://142.93.134.108:1111/login?email=${email}&password=${password}`;
+        }
+
+        const response = await axios.post(url, authData);
+        const data = response.data;
+        localStorage.setItem('token', data.body.access_token);
+        dispatch(authSuccess(data.body.access_token, data.body.refresh_token));
     }
+}
+
+export function authSuccess(access_token, refresh_token) {
+    return {
+        type: UPDATE_TOKENS,
+        access_token,
+        refresh_token
+    }
+}
+
+export function isAuthenticated(state) {
+    return !!state.auth.access_token;
 }

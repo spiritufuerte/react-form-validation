@@ -1,17 +1,27 @@
 import React from 'react';
 import './App.css';
-import Login from "./components/Login";
-import {Provider} from 'react-redux';
-import store from "./redux/redux-store";
+import Auth from "../src/components/Auth";
 import classes from '../src/App.css';
+import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
+import MeContainer from "./components/MeContainer";
+import {useSelector} from "react-redux";
+import {getAccessToken} from "./redux/selectors";
 
-function App() {
+
+function App(props) {
+    const accessToken = useSelector(getAccessToken);
+
     return (
-        <Provider store={store}>
-            <div className={classes.App}>
-                <Login/>
-            </div>
-        </Provider>
+        <BrowserRouter>
+                <div className={classes.App}>
+                    <Switch>
+                        <Route exact path="/me" component={MeContainer}/>
+                        <Route exact path="/">
+                            {accessToken ? <Redirect to="/me" /> : <Auth />}
+                        </Route>
+                    </Switch>
+                </div>
+        </BrowserRouter>
     );
 }
 
