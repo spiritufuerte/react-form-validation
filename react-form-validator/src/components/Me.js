@@ -1,9 +1,11 @@
 import React from "react";
 
+
 const Me = (props) => {
 
-    const handleClick = () => {
 
+    const handleClick = (props) => {
+        props.refreshToken;
     }
 
 
