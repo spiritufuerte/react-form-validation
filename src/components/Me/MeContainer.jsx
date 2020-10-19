@@ -9,7 +9,6 @@ const MeContainer = (props) => {
     const dispatch = useDispatch();
 
     function refreshToken() {
-        console.log('props', props);
         const infoRefresh = {
             headers: {
                 'Authorization': `Bearer ${props.refresh_token}`
