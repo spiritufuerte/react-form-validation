@@ -1,9 +1,9 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {reset} from 'redux-form';
-import {getFormValues} from '../redux/selectors';
-import {ReduxForm} from "./Form";
-import {auth} from "../api/api";
+import {getFormValues} from '../../redux/selectors';
+import {ReduxForm} from "./Form/Form";
+import {auth} from "../../api/api";
 import classes from './Auth.module.css';
 
 const Auth = () => {
@@ -30,9 +30,13 @@ const Auth = () => {
     return (
         <div className={classes.wrapper}>
             <ReduxForm handleSubmit={handleSubmit}/>
-            <div>
-                <button onClick={handleSignUn}>sign up</button>
-                <button onClick={handleLogin}>Login</button>
+            <div className={classes.button_block}>
+                <div className={classes.button}>
+                    <button onClick={handleSignUn}>sign up</button>
+                </div>
+                <div className={classes.button}>
+                    <button onClick={handleLogin}>Login</button>
+                </div>
             </div>
         </div>
     );

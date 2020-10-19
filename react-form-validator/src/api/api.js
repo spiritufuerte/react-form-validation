@@ -16,7 +16,6 @@ export function auth(email, password, isLogin) {
 
         const response = await axios.post(url, authData);
         const data = response.data;
-        localStorage.setItem('token', data.body.access_token);
         dispatch(authSuccess(data.body.access_token, data.body.refresh_token));
     }
 }
@@ -27,8 +26,4 @@ export function authSuccess(access_token, refresh_token) {
         access_token,
         refresh_token
     }
-}
-
-export function isAuthenticated(state) {
-    return !!state.auth.access_token;
 }

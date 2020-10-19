@@ -1,6 +1,6 @@
-import {aol, email, maxLengthCreator, minLength, required} from "../utils/validators/validators";
+import {aol, email, maxLengthCreator, minLength, required} from "../../../utils/validators/validators";
 import {Field, reduxForm} from "redux-form";
-import {Input} from "./Input";
+import {Input} from "./Input/Input";
 import React from "react";
 import classes from './Form.module.css';
 

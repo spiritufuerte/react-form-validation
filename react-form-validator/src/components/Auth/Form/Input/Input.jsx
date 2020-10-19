@@ -5,7 +5,7 @@ export const Input = ({input, name, meta: {touched, error, warning}}) => {
     return (
         <div className={classes.wrapper}>
             <div>
-                <input {...input} placeholder={name}/>
+                <input {...input} placeholder={name} />
             </div>
             {touched &&
             ((error && <span>{error}</span>) ||
