@@ -2,6 +2,7 @@ import React from "react";
 import classes from './Input.module.css';
 
 export const Input = ({input, name, meta: {touched, error, warning}}) => {
+
     return (
         <div className={classes.wrapper}>
             <div>

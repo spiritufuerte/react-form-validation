@@ -17,6 +17,8 @@ const MeContainer = (props) => {
         axios.post('http://142.93.134.108:1111/refresh', null, infoRefresh).then(function (response) {
             console.log(response);
             const data = response.data;
+            localStorage.setItem('access_token', data.body.access_token);
+            localStorage.setItem('refresh_token', data.body.refresh_token);
             dispatch(authSuccess(data.body.access_token, data.body.refresh_token));
         })
     }

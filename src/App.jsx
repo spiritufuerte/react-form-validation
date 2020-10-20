@@ -12,7 +12,7 @@ function App(props) {
     const accessToken = useSelector(getAccessToken);
 
     return (
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
             <div className={classes.App}>
                 <Switch>
                     <Route exact path="/me">

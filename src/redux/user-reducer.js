@@ -1,8 +1,8 @@
 export const UPDATE_TOKENS = 'UPDATE-TOKENS';
 
 const initialState = {
-    access_token: null,
-    refresh_token: null
+    access_token: localStorage.getItem('access_token'),
+    refresh_token:  localStorage.getItem('refresh_token')
 }
 
 const authReducer = (state = initialState, action) => {
