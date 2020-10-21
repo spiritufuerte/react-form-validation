@@ -22,9 +22,11 @@ export function auth(email, password, isLogin) {
                 dispatch(authError(data.message));
                 return
             }
-            localStorage.setItem('access_token', data.body.access_token);
-            localStorage.setItem('refresh_token', data.body.refresh_token);
-            dispatch(authSuccess(data.body.access_token, data.body.refresh_token));
+            if(isLogin){
+                localStorage.setItem('access_token', data.body.access_token);
+                localStorage.setItem('refresh_token', data.body.refresh_token);
+                dispatch(authSuccess(data.body.access_token, data.body.refresh_token));
+            }
         }).catch(function (error) {
             console.log('error', error);
         });
