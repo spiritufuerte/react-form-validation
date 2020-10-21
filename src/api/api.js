@@ -16,7 +16,6 @@ export function auth(email, password, isLogin) {
         }
 
         await axios.post(url, authData).then(response => {
-            console.log('response', response);
             const data = response.data;
             if(data.status === 'error'){
                 dispatch(authError(data.message));

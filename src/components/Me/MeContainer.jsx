@@ -4,43 +4,66 @@ import axios from "axios";
 import {connect, useDispatch} from "react-redux";
 import {authSuccess} from "../../api/api";
 
+export const api = axios.create({
+    baseURL: 'http://142.93.134.108:1111',
+});
+
+export const apiRefresh = axios.create({
+    baseURL: 'http://142.93.134.108:1111',
+});
+
+const checkTokenInterceptor = (config) => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+};
+
+const responseInterceptor = (response) => {
+    const data = response.data;
+    localStorage.setItem('access_token', data.body.access_token);
+    localStorage.setItem('refresh_token', data.body.refresh_token);
+    return response;
+}
+
+api.interceptors.request.use(checkTokenInterceptor);
+apiRefresh.interceptors.response.use(responseInterceptor);
+
 
 const MeContainer = (props) => {
 
     const dispatch = useDispatch();
 
-    function refreshToken() {
+    async function refreshToken() {
+
         const infoRefresh = {
             headers: {
                 'Authorization': `Bearer ${props.refresh_token}`
             }
         }
-        axios.post('http://142.93.134.108:1111/refresh', null, infoRefresh).then(function (response) {
-            console.log(response);
+
+        apiRefresh.post('/refresh', null, infoRefresh).then(response => {
             const data = response.data;
-            localStorage.setItem('access_token', data.body.access_token);
-            localStorage.setItem('refresh_token', data.body.refresh_token);
             dispatch(authSuccess(data.body.access_token, data.body.refresh_token));
-        })
+        }).catch(console.error);
     }
 
-    const infoAceess = {
-        headers: {
-            'Authorization': `Bearer ${props.access_token}`
-        }
-    }
 
     const [message, setMessage] = useState();
 
+
     useEffect(() => {
-        axios.get('http://142.93.134.108:1111/me', infoAceess
-        ).then(function (response) {
-            setMessage(response.data.body.message);
-        }).catch(function (error) {
-                console.log(error);
-            }
-        );
-    });
+        const getUserInfo = () => {
+            api.get('/me').then(response => {
+                setMessage(response.data.body.message);
+            }).catch(error => {
+                console.log('some erroe', error);
+            });
+        };
+        getUserInfo();
+    }, [message]);
+
 
     return (
         <Me refreshToken={refreshToken} message={message}/>
