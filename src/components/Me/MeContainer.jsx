@@ -58,7 +58,7 @@ const MeContainer = (props) => {
             api.get('/me').then(response => {
                 setMessage(response.data.body.message);
             }).catch(error => {
-                console.log('some erroe', error);
+                console.log('some error', error);
             });
         };
         getUserInfo();

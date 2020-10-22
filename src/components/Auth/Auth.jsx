@@ -15,7 +15,6 @@ const Auth = () => {
     }
 
     const handleSignUn = () => {
-        console.log('errorMessage', errorMessage)
         dispatch(auth(values.email,
             values.password,
             false
